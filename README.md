@@ -37,3 +37,30 @@ python -m http.server 5177
 ```text
 http://localhost:5177
 ```
+
+## Playwright Python 测试
+
+安装依赖：
+
+```powershell
+python -m pip install -r requirements.txt
+python -m playwright install
+```
+
+先启动站点：
+
+```powershell
+docker compose up -d --build
+```
+
+运行测试：
+
+```powershell
+python -m pytest
+```
+
+停止站点：
+
+```powershell
+docker compose down
+```
