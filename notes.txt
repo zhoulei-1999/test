@@ -1,3 +1,0 @@
-This is a simple notes file.
-
-Created for testing Git commits and pushes.

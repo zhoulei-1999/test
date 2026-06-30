@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playwright Practice Lab</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Playwright Practice Lab</h1>
+        <p>一个用于练习端到端测试的小型站点</p>
+      </div>
+      <nav aria-label="主导航">
+        <a href="#forms" data-testid="nav-forms">表单</a>
+        <a href="#async" data-testid="nav-async">异步</a>
+        <a href="#widgets" data-testid="nav-widgets">组件</a>
+        <a href="#table" data-testid="nav-table">表格</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel intro" aria-labelledby="intro-title">
+        <div>
+          <h2 id="intro-title">测试目标总览</h2>
+          <p>这里包含输入、点击、断言可见性、等待异步结果、弹窗、拖拽、上传文件和本地存储等常见场景。</p>
+        </div>
+        <div class="status-pill" data-testid="app-status">Ready</div>
+      </section>
+
+      <section id="forms" class="panel" aria-labelledby="forms-title">
+        <h2 id="forms-title">表单校验</h2>
+        <form id="signup-form" novalidate data-testid="signup-form">
+          <div class="grid two">
+            <label>
+              用户名
+              <input data-testid="username-input" name="username" autocomplete="username" placeholder="至少 3 个字符" />
+            </label>
+            <label>
+              邮箱
+              <input data-testid="email-input" name="email" autocomplete="email" placeholder="name@example.com" />
+            </label>
+          </div>
+          <fieldset>
+            <legend>测试偏好</legend>
+            <label class="inline">
+              <input data-testid="pref-ui" type="checkbox" name="preference" value="ui" />
+              UI 测试
+            </label>
+            <label class="inline">
+              <input data-testid="pref-api" type="checkbox" name="preference" value="api" />
+              API 测试
+            </label>
+          </fieldset>
+          <label>
+            角色
+            <select data-testid="role-select" name="role">
+              <option value="">请选择</option>
+              <option value="developer">开发者</option>
+              <option value="tester">测试工程师</option>
+              <option value="manager">项目负责人</option>
+            </select>
+          </label>
+          <div class="actions">
+            <button type="submit" data-testid="submit-signup">提交</button>
+            <button type="reset" class="secondary" data-testid="reset-signup">重置</button>
+          </div>
+          <p class="message" role="status" data-testid="form-message"></p>
+        </form>
+      </section>
+
+      <section id="async" class="panel" aria-labelledby="async-title">
+        <h2 id="async-title">异步加载</h2>
+        <p>点击按钮后模拟网络延迟，适合练习 `await expect(...).toBeVisible()` 和等待状态。</p>
+        <div class="actions">
+          <button data-testid="load-users">加载用户</button>
+          <button class="secondary" data-testid="clear-users">清空</button>
+        </div>
+        <div class="loader" hidden data-testid="users-loading">Loading...</div>
+        <ul class="user-list" data-testid="users-list"></ul>
+      </section>
+
+      <section id="widgets" class="panel" aria-labelledby="widgets-title">
+        <h2 id="widgets-title">交互组件</h2>
+        <div class="grid three">
+          <article class="tool">
+            <h3>计数器</h3>
+            <div class="counter" data-testid="counter-value">0</div>
+            <div class="actions compact">
+              <button data-testid="increment">+1</button>
+              <button class="secondary" data-testid="decrement">-1</button>
+            </div>
+          </article>
+
+          <article class="tool">
+            <h3>弹窗</h3>
+            <button data-testid="open-modal">打开弹窗</button>
+          </article>
+
+          <article class="tool">
+            <h3>本地存储</h3>
+            <label>
+              主题名
+              <input data-testid="theme-input" placeholder="例如 smoke" />
+            </label>
+            <button data-testid="save-theme">保存</button>
+            <p class="message" data-testid="saved-theme">未保存</p>
+          </article>
+        </div>
+
+        <div class="grid two lower">
+          <article class="tool">
+            <h3>文件上传</h3>
+            <input data-testid="file-upload" type="file" />
+            <p class="message" data-testid="file-name">未选择文件</p>
+          </article>
+
+          <article class="tool">
+            <h3>拖拽</h3>
+            <div class="drag-row">
+              <div draggable="true" class="drag-item" data-testid="drag-source">拖动我</div>
+              <div class="drop-zone" data-testid="drop-target">释放到这里</div>
+            </div>
+            <p class="message" data-testid="drag-message">等待拖拽</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="table" class="panel" aria-labelledby="table-title">
+        <h2 id="table-title">表格筛选</h2>
+        <label>
+          搜索任务
+          <input data-testid="task-search" placeholder="输入 login、cart、report..." />
+        </label>
+        <table>
+          <thead>
+            <tr>
+              <th>任务</th>
+              <th>类型</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody data-testid="task-table">
+            <tr><td>login flow</td><td>UI</td><td><span class="badge pass">pass</span></td></tr>
+            <tr><td>cart checkout</td><td>UI</td><td><span class="badge warn">review</span></td></tr>
+            <tr><td>report export</td><td>API</td><td><span class="badge pass">pass</span></td></tr>
+            <tr><td>profile settings</td><td>UI</td><td><span class="badge fail">fail</span></td></tr>
+          </tbody>
+        </table>
+        <p class="message" data-testid="task-count">4 tasks visible</p>
+      </section>
+    </main>
+
+    <dialog data-testid="modal">
+      <h2>确认操作</h2>
+      <p>这是一个原生 dialog，适合测试弹窗可见性和关闭行为。</p>
+      <div class="actions">
+        <button data-testid="confirm-modal">确认</button>
+        <button class="secondary" data-testid="close-modal">关闭</button>
+      </div>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,5 +1,0 @@
-Todo
-
-- Learn basic Git commands
-- Push this repository to GitHub
-- Make another small commit later
